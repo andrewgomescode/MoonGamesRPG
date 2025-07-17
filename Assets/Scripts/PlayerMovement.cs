@@ -7,15 +7,17 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 5;
     public Rigidbody2D rb;
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    // FixedUpdate is called 50x frame
+    void FixedUpdate()
     {
-        
-    }
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Normaliza a direção do movimento (corrige o problema de andar mais rápido na diagonal)
+        Vector2 direction = new Vector2(horizontal, vertical);
+        if (direction.magnitude > 1f)
+            direction = direction.normalized;
+
+        rb.linearVelocity = direction * speed;
     }
 }
